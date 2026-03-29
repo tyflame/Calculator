@@ -49,24 +49,26 @@ jobs:
       
       - name: Create app icon
         run: |
-          # Crea un'icona semplice con ImageMagick
+          # Installa ImageMagick
           sudo apt-get update
           sudo apt-get install -y imagemagick
           
-          # Crea un quadrato blu con testo "FC"
-          convert -size 512x512 xc:blue -gravity center -pointsize 200 -fill white -draw "text 0,0 'FC'" app/src/main/res/drawable/ic_launcher.png
+          # Crea un'icona PNG base
+          convert -size 512x512 xc:blue -gravity center -pointsize 200 -fill white -draw "text 0,0 'FC'" icon.png
           
-          # Copia l'icona in tutte le densità
-          for size in 72 48 96 144 192; do
-            convert app/src/main/res/drawable/ic_launcher.png -resize ${size}x${size} app/src/main/res/mipmap-${size}dpi/ic_launcher.png
-          done
+          # Crea le icone nelle diverse densità
+          convert icon.png -resize 72x72 app/src/main/res/mipmap-hdpi/ic_launcher.png
+          convert icon.png -resize 48x48 app/src/main/res/mipmap-mdpi/ic_launcher.png
+          convert icon.png -resize 96x96 app/src/main/res/mipmap-xhdpi/ic_launcher.png
+          convert icon.png -resize 144x144 app/src/main/res/mipmap-xxhdpi/ic_launcher.png
+          convert icon.png -resize 192x192 app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
           
-          # Dimensioni specifiche per Android
-          convert app/src/main/res/drawable/ic_launcher.png -resize 72x72 app/src/main/res/mipmap-hdpi/ic_launcher.png
-          convert app/src/main/res/drawable/ic_launcher.png -resize 48x48 app/src/main/res/mipmap-mdpi/ic_launcher.png
-          convert app/src/main/res/drawable/ic_launcher.png -resize 96x96 app/src/main/res/mipmap-xhdpi/ic_launcher.png
-          convert app/src/main/res/drawable/ic_launcher.png -resize 144x144 app/src/main/res/mipmap-xxhdpi/ic_launcher.png
-          convert app/src/main/res/drawable/ic_launcher.png -resize 192x192 app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+          # Crea anche una versione rotonda (opzionale)
+          cp app/src/main/res/mipmap-mdpi/ic_launcher.png app/src/main/res/mipmap-mdpi/ic_launcher_round.png
+          cp app/src/main/res/mipmap-hdpi/ic_launcher.png app/src/main/res/mipmap-hdpi/ic_launcher_round.png
+          cp app/src/main/res/mipmap-xhdpi/ic_launcher.png app/src/main/res/mipmap-xhdpi/ic_launcher_round.png
+          cp app/src/main/res/mipmap-xxhdpi/ic_launcher.png app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png
+          cp app/src/main/res/mipmap-xxxhdpi/ic_launcher.png app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png
       
       - name: Create AndroidManifest.xml
         run: |
@@ -78,6 +80,7 @@ jobs:
               <application
                   android:allowBackup="true"
                   android:icon="@mipmap/ic_launcher"
+                  android:roundIcon="@mipmap/ic_launcher_round"
                   android:label="FLAME CALC"
                   android:usesCleartextTraffic="true"
                   android:theme="@style/Theme.AppCompat.Light.NoActionBar"
