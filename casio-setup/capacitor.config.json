@@ -1,0 +1,8 @@
+{
+  "appId": "com.tyflame.flamecalc",
+  "appName": "FLAME CALC",
+  "webDir": "www",
+  "android": {
+    "allowMixedContent": false
+  }
+}

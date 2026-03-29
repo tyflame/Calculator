@@ -1,0 +1,17 @@
+{
+  "name": "flame-calc",
+  "version": "1.0.0",
+  "private": true,
+  "description": "FLAME CALC — Capacitor Android",
+  "scripts": {
+    "sync": "npx cap sync",
+    "android:open": "npx cap open android"
+  },
+  "dependencies": {
+    "@capacitor/android": "^6.2.0",
+    "@capacitor/core": "^6.2.0"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^6.2.0"
+  }
+}
